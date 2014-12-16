@@ -44,7 +44,7 @@ end
 %  DR's will not be taken less than some tolerance level in time
 %  apart;  three minutes is common.
 
-tol=1/20;
+tol=1/2000;
 
 % Strategy is to pack up required dr times and interp1 for distances,
 % then loop through the times, reckon('rh')'ing from point to point
