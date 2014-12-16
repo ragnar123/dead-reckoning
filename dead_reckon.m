@@ -71,12 +71,14 @@ end
 
 %  Ensure column vectors
 
-lat   = lat(:);       long = long(:);
-speed = speed(:);     time = time(:);
+lat = lat(:);
+long = long(:);
+speed = speed(:);
+time = time(:);
+
 if ~isempty(spdtimes)
     if any(diff(spdtimes)<=0)
-            error(['map:' mfilename ':mapError'], ...
-                'Times for speed changes must be in time-increasing order')
+            error(['map:' mfilename ':mapError'], 'Times for speed changes must be in time-increasing order')
     end
   spdtimes = spdtimes(:);
 end
