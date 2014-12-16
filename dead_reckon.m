@@ -1,4 +1,4 @@
-function [drlat,drlong,drtime]=dreckon(waypoints,time,speed,spdtimes)
+function [drlat,drlong,drtime]=dead_reckon(waypoints,time,speed,spdtimes)
 % DRECKON  Dead reckoning positions for track
 %
 %  [drlat,drlong,drtime] = DRECKON(waypoints,time,speed) takes
