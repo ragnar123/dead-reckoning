@@ -1,5 +1,5 @@
 function [drlat,drlong,drtime]=dead_reckon(waypoints,time,speed,spdtimes)
-% DRECKON  Dead reckoning positions for track
+% Dead Reckon  Dead reckoning positions for track
 %
 %  [drlat,drlong,drtime] = DRECKON(waypoints,time,speed) takes
 %  the latitudes and waypoints in navigational track format,
@@ -26,10 +26,10 @@ function [drlat,drlong,drtime]=dead_reckon(waypoints,time,speed,spdtimes)
 %
 %  See also NAVFIX, GCWAYPTS, TRACK, CROSSFIX.
 
-% Copyright 1996-2007 The MathWorks, Inc.
-% Written by:  E. Brown, E. Byrns
+%
+% Note: I am currently rewriting the function to use m/s instead of nautical miles
+%
 
-error(nargchk(3, 4, nargin, 'struct'))
 
 if nargin == 3
     spdtimes = [];
@@ -50,11 +50,9 @@ tol=1/2000;
 % then loop through the times, reckon('rh')'ing from point to point
 
 if (size(waypoints,2)~=2)
-     error(['map:' mfilename ':mapError'], ...
-         'Navigational track format required for waypoints')
+     error(['map:' mfilename ':mapError'], 'Navigational track format required for waypoints')
 elseif (size(waypoints,1)<2)
-    error(['map:' mfilename ':mapError'], ...
-        'At least 2 waypoints are required')
+    error(['map:' mfilename ':mapError'], 'At least 2 waypoints are required')
 end
 
 waypoints = ignoreComplex(waypoints, mfilename, 'waypoints');
@@ -194,20 +192,20 @@ end
 % removed for tolerance (3 minute) reasons
 
 
-drdist=interp1([time;spdtimes],[0;spddists],drtime,'linear');
+drdist = interp1([time;spdtimes],[0;spddists],drtime,'linear');
 
 % The distances for each between-dr segment
 
 distseg=[drdist(1);diff(drdist)];
 
 % we're going to walk through the track.  Start at the initial point
-startlat=lat(1);
-startlong=long(1);
+startlat = lat(1);
+startlong = long(1);
 
 for i=1:length(drtime)
 
     % which course leg are you on
-    indx=find(crstimes<drtime(i));
+    indx = find(crstimes<drtime(i));
     if isempty(indx) % you're on the first course leg
         indx=0;
     end
@@ -217,10 +215,9 @@ for i=1:length(drtime)
 
     indx=indx+1;
     steer=course(max(indx));
-    [drlat(i,1),drlong(i,1)]=reckon('rh',startlat,startlong,...
-                                    distseg(i)/60,steer,'degrees');
-    startlat=drlat(i);
-    startlong=drlong(i);
+    [drlat(i,1), drlong(i,1)] =reckon('rh', startlat, startlong, distseg(i) / 60, steer,'degrees');
+    startlat = drlat(i);
+    startlong = drlong(i);
 end
 
 %  Set the output vector if necessary
