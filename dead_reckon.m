@@ -1,4 +1,4 @@
-function [drlat, drlong, drtime] = dead_reckon(waypoints, time, speed, spdtimes)
+function [drlat, drlong, drtime] = dead_reckon(waypoints, time, speedInMs, spdtimes)
 % Dead Reckon  Dead reckoning positions for track
 %
 %  [drlat,drlong,drtime] = DRECKON(waypoints,time,speed) takes
@@ -26,10 +26,9 @@ function [drlat, drlong, drtime] = dead_reckon(waypoints, time, speed, spdtimes)
 %
 %  See also NAVFIX, GCWAYPTS, TRACK, CROSSFIX.
 
-%
-% Note: I am currently rewriting the function to use m/s instead of nautical miles
-%
 
+% Convert speed in m/s to knots
+speed = speedInMs * 1.94384449;
 
 if nargin == 3
     spdtimes = [];
@@ -40,21 +39,19 @@ end
 %       2) There is a speed change
 %       3) Every hour on the hour
 %
-%   And, in practice, at other times not relevant to this function
-%  DR's will not be taken less than some tolerance level in time
-%  apart;  three minutes is common.
+%  And, in practice, at other times not relevant to this function
+%  DR's will not be taken less than some tolerance level in time apart; three minutes is common.
 
 tol = 1 / 2000;
 
 % Strategy is to pack up required dr times and interp1 for distances,
 % then loop through the times, reckon('rh')'ing from point to point
 
-if (size(waypoints,2)~=2)
+if (size(waypoints,2) ~= 2)
     error(['map:' mfilename ':mapError'], 'Navigational track format required for waypoints')
 elseif (size(waypoints,1)<2)
     error(['map:' mfilename ':mapError'], 'At least 2 waypoints are required')
 end
-
 
 % Extract vectors of latitude and longitude
 lat = waypoints(:,1);
@@ -104,10 +101,10 @@ end
 if length(spdtimes) > 1
     intervals = [spdtimes(1) - time; diff(spdtimes)]; % not clock times but intervals
 else
-    intervals=spdtimes(1) - time;
+    intervals = spdtimes(1) - time;
 end
 
-spddists = cumsum(speed.*intervals);  % distance traveled in each interval
+spddists = cumsum(speed.*intervals); % distance traveled in each interval
 
 if crschng  % you haven't included course changes yet
     cumdist = cumsum(dist); % these are the cumulative distances travelled at each course change

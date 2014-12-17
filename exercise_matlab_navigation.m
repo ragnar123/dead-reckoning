@@ -50,10 +50,10 @@ waypoints = [
     latB lonB
 ];
 time = 0; % Leave at midnight
-speed = 3; % Speed in knots
+speed = 3; % Speed in m/s
 
 [drlat, drlon, drtime] = dead_reckon(waypoints, time, speed);
-
+drAns = [drlat, drlon, drtime];
 wmmarker(drlat, drlon)
 
 %% Exercise 2
