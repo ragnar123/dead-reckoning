@@ -1,4 +1,4 @@
-function [drlat, drlong, drtime] = dead_reckon(waypoints, time, speedInMs, spdtimes)
+function [drlat, drlong, drtime] = dead_reckon(waypoints, time, speedInMs, spdtimes, LEG_VARIATION)
 % Dead Reckon  Dead reckoning positions for track
 %
 %  [drlat,drlong,drtime] = DRECKON(waypoints,time,speed) takes
@@ -32,6 +32,7 @@ speed = speedInMs * 1.94384449;
 
 if nargin == 3
     spdtimes = [];
+    LEG_VARIATION = 1;
 end
 
 % DR's are required when:
@@ -78,7 +79,7 @@ crschng = 0;
 if isempty(spdtimes) % derived speed times
     if max(size(speed)) == 1  % constant speed
         spdtimes = time + cumsum(dist) / speed; % clock time at end of each leg
-        speed = speed * ones(size(dist));  % expand speed out to vector, 1 for each leg
+        speed = speed * ones(size(dist)) * LEG_VARIATION;  % expand speed out to vector, 1 for each leg
 
     elseif length(speed) == (size(lat, 1) - 1) % you have a speed for each leg
         spdtimes = cumsum(dist./speed) + time; % clock time at end of each leg
@@ -114,7 +115,7 @@ if crschng  % you haven't included course changes yet
 
     if isempty(last1) % first spddist beyond track, just go to end of track, constant (first) speed
         spddists = cumdist(length(cumdist));
-        spdtimes = time + spddists/speed(1);
+        spdtimes = time + spddists / speed(1);
 
     elseif last1 == length(spddists) % track extends beyond spddists, stop at last spddists
         last2 = max(find(cumdist < spddists(length(spddists)))); %don't let track take you past last defined speed time

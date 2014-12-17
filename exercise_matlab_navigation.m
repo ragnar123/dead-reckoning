@@ -52,7 +52,7 @@ waypoints = [
 time = 0; % Leave at midnight
 speed = 3; % Speed in m/s
 
-[drlat, drlon, drtime] = dead_reckon(waypoints, time, speed);
+[drlat, drlon, drtime] = dead_reckon(waypoints, time, speed, [], 1.15);
 drAns = [drlat, drlon, drtime];
 wmmarker(drlat, drlon)
 
