@@ -70,7 +70,7 @@ time = time(:);
 
 if ~isempty(spdtimes)
     if any(diff(spdtimes) <= 0)
-            error(['map:' mfilename ':mapError'], 'Times for speed changes must be in time-increasing order')
+        error(['map:' mfilename ':mapError'], 'Times for speed changes must be in time-increasing order')
     end
   spdtimes = spdtimes(:);
 end
@@ -117,7 +117,7 @@ if crschng  % you haven't included course changes yet
 
     if isempty(last1) % first spddist beyond track, just go to end of track, constant (first) speed
         spddists = cumdist(length(cumdist));
-        spdtimes = time+spddists/speed(1);
+        spdtimes = time + spddists/speed(1);
 
     elseif last1 == length(spddists) % track extends beyond spddists, stop at last spddists
         last2 = max(find(cumdist < spddists(length(spddists)))); %don't let track take you past last defined speed time
@@ -158,7 +158,7 @@ spddists(qndx) = [];
 hrtimes = (ceil(time + tol):floor(spdtimes(length(spdtimes)) - tol))';
 
 % Pack up and reorder with the other dr events into drtime
-drtime = sort([spdtimes;hrtimes]);
+drtime = sort([spdtimes; hrtimes]);
 
 % Where ever two dr events are within the tolerance (3 minutes), remove one
 jndx=find(diff(drtime) < tol);
