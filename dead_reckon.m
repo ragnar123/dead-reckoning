@@ -110,7 +110,7 @@ if crschng  % you haven't included course changes yet
     cumdist = cumsum(dist); % these are the cumulative distances travelled at each course change
 
     % Don't let speed orders take you past defined track
-    last1 = max(find(spddists<cumdist(length(cumdist))));
+    last1 = max(find(spddists < cumdist(length(cumdist))));
 
     if isempty(last1) % first spddist beyond track, just go to end of track, constant (first) speed
         spddists = cumdist(length(cumdist));
@@ -134,7 +134,7 @@ if crschng  % you haven't included course changes yet
 
     % interpolate the times of the course changes under the speed/time profile.
     % if cumdist is empty, so will be crstimes
-    crstimes = interp1([0;spddists], [time; spdtimes], cumdist, 'linear');
+    crstimes = interp1([0; spddists], [time; spdtimes], cumdist, 'linear');
 
     % pack up times and distances of dr events -- will sort later
     spdtimes = [crstimes;spdtimes];
@@ -146,7 +146,7 @@ end
 spddists = spddists(kndx);
 
 % remove duplicate speed times -- will cause problems later in interp
-qndx = find(diff(spdtimes)<eps);
+qndx = find(diff(spdtimes) < eps);
 spdtimes(qndx) = [];
 spddists(qndx) = [];
 
