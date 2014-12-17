@@ -10,10 +10,10 @@ dept_of_engineering = [latA, lonA];
 dept_of_engineering_marker = wmmarker(dept_of_engineering(1), dept_of_engineering(2));
 
 railway_station = [latB, lonB];
-railway_station_marker = wmmarker(latB, lonB);
+%railway_station_marker = wmmarker(latB, lonB);
 
 %% Plot the straight line
-wmline([latA, latB], [lonA, lonB]);
+%wmline([latA, latB], [lonA, lonB]);
 
 %% Define the waypoints
 % Waypoints were measured by hand from a webmap
@@ -29,7 +29,7 @@ latpts = [latA, wp1(1), wp2(1), wp3(1), wp4(1), wp5(1), wp6(1), latB];
 lonpts = [lonA, wp1(2), wp2(2), wp3(2), wp4(2), wp5(2), wp6(2), lonB];
 
 %% Plot the line with waypoints
-wmline(latpts, lonpts);
+%wmline(latpts, lonpts);
 
 
 
@@ -52,14 +52,20 @@ waypoints = [
 time = 0; % Leave at midnight
 speed = 3; % Speed in m/s
 
-[drlat, drlon, drtime] = dead_reckon(waypoints, time, speed, [], 1.15);
+[drlat, drlon, drtime] = dead_reckon(waypoints, time, speed, [], 1.1);
 drAns = [drlat, drlon, drtime];
-wmmarker(drlat, drlon)
+%wmmarker(drlat, drlon)
 
 %% Exercise 2
 % Create a dead reckoning function using other parameters
  
 
+% Compute variation wp-dr
+wp = waypoints(2:8,1:2)
+dr = [drlat, drlon]
+
+wmmarker(wp(:,1), wp(:,2), 'Color', 'red')
+wmmarker(dr(:,1), dr(:,2), 'Color', 'yellow')
 
 
 
