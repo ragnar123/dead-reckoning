@@ -110,7 +110,7 @@ end
 spddists = cumsum(speed.*intervals);  % distance traveled in each interval
 
 if crschng  % you haven't included course changes yet
-    cumdist=cumsum(dist); % these are the cumulative distances travelled at each course change
+    cumdist = cumsum(dist); % these are the cumulative distances travelled at each course change
 
     % Don't let speed orders take you past defined track
     last1 = max(find(spddists<cumdist(length(cumdist))));
@@ -161,7 +161,7 @@ hrtimes = (ceil(time + tol):floor(spdtimes(length(spdtimes)) - tol))';
 drtime = sort([spdtimes; hrtimes]);
 
 % Where ever two dr events are within the tolerance (3 minutes), remove one
-jndx=find(diff(drtime) < tol);
+jndx = find(diff(drtime) < tol);
 while ~isempty(jndx)
     drtime(jndx(1)) = [];
     jndx = find(diff(drtime) < tol);
@@ -174,7 +174,7 @@ end
 drdist = interp1([time;spdtimes], [0;spddists], drtime, 'linear');
 
 % The distances for each between-dr segment
-distseg=[drdist(1); diff(drdist)];
+distseg = [drdist(1); diff(drdist)];
 
 % we're going to walk through the track.  Start at the initial point
 startlat = lat(1);
