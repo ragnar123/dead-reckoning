@@ -4,7 +4,7 @@
 
 
 
-Re-implement the dreckon function. Adhere to the following requirements:
+Re-implement the [dreckon](http://se.mathworks.com/help/map/ref/dreckon.html) function. Adhere to the following requirements:
 
  - Speed entries are given in m/s rather than knots
  - Allow for slight symmetric variations, vl, in the speed per leg, sl, entries, i.e. sl ± vl
